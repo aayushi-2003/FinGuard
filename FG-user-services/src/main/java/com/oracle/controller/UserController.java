@@ -44,6 +44,11 @@ public class UserController {
     public float getBalanceById(@PathVariable Long id) {
         return userService.getBalanceById(id);
     }
+    
+    @PutMapping("/{id}/balance")
+    public void updateBalance(@PathVariable Long id, @RequestBody float newBalance) {
+        userService.updateBalance(id, newBalance);
+    }
 
     // Get user by username
     @GetMapping("/username/{username}")

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.oracle.exception.ApplicationException;
 import com.oracle.model.Transaction;
 import com.oracle.model.TransactionType;
+import com.oracle.proxy.UserProxy;
 import com.oracle.repository.TransactionRepository;
 
 import jakarta.transaction.Transactional;
@@ -17,8 +18,26 @@ public class TransactionServiceImpl implements TransactionService{
 	@Autowired
 	private TransactionRepository transaction_repo;
 	
+	@Autowired
+    private UserProxy userProxy;
+	
 	public Transaction addTransactionService(Transaction t) {
-		return transaction_repo.save(t);
+		float currentBalance = userProxy.getBalanceById((long) t.getUserId());
+
+        float postBalance;
+        if (t.getTransactionType() == TransactionType.CREDIT) {
+            postBalance = currentBalance + t.getAmount();
+        } else if (t.getTransactionType() == TransactionType.DEBIT) {
+            postBalance = currentBalance - t.getAmount();
+        } else {
+            throw new IllegalArgumentException("Unknown transaction type");
+        }
+
+        t.setPostBalance(postBalance);
+        t.setTransactionDate(java.time.LocalDate.now().toString());
+        userProxy.updateBalance((long) t.getUserId(), postBalance);
+
+        return transaction_repo.save(t);
 
 	};
 	

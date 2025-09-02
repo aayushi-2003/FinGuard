@@ -72,4 +72,9 @@ public class UserService {
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
+
+	public void updateBalance(Long id, float newBalance) {
+    	User user = userRepository.findByUserId(id).get(); 	
+    	user.setCurrentBalance(newBalance);
+	}
 }
