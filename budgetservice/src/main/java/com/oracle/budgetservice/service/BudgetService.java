@@ -3,6 +3,8 @@ package com.oracle.budgetservice.service;
 
 import com.oracle.budgetservice.model.Budget;
 import com.oracle .budgetservice.repository.BudgetRepository;
+
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
