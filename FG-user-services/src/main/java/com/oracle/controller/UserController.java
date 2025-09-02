@@ -13,9 +13,9 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
+	@Autowired
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -38,6 +38,11 @@ public class UserController {
         User user = userService.getUserById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
         return ResponseEntity.ok(user);
+    }
+    
+    @GetMapping("/balance/{id}")
+    public float getBalanceById(@PathVariable Long id) {
+        return userService.getBalanceById(id);
     }
 
     // Get user by username
