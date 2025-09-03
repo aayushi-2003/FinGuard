@@ -59,7 +59,7 @@ public class BudgetService {
     
     public Budget updateSpentAmount(Long id, Budget updatedBudget) {
         return budgetRepository.findById(id).map(budget -> {
-            float newSpentAmount = updatedBudget.getSpentAmount();
+            float newSpentAmount = updatedBudget.getSpentAmount()+budget.getSpentAmount();
             if (newSpentAmount > budget.getAllocatedAmount()) {
             	System.out.println("Error message");
                 throw new RuntimeException("Spent amount cannot be greater than allocated amount.");
