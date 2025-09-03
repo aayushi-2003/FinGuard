@@ -1,9 +1,11 @@
 package com.oracle.budgetservice.service;
 
+import com.oracle.budgetservice.model.Budget;
 import com.oracle.budgetservice.model.Goal;
 import com.oracle.budgetservice.repository.GoalRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GoalService {
@@ -12,9 +14,14 @@ public class GoalService {
     public GoalService(GoalRepository goalRepository) {
         this.goalRepository = goalRepository;
     }
+    
+    public Goal createGoal(Goal goal) {
 
-    public List<Goal> getGoalsByUserId(Long userId) {
-        return goalRepository.findByUserId(userId);
+        return goalRepository.save(goal);    
+    }
+
+    public Optional<Goal> getGoalById(Long id) {
+        return goalRepository.findById(id);
     }
 
     public Goal saveGoal(Goal goal) {
@@ -24,4 +31,5 @@ public class GoalService {
     public void deleteGoal(Long goalId) {
         goalRepository.deleteById(goalId);
     }
+
 }

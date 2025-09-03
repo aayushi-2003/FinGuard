@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oracle.model.Transaction;
 import com.oracle.model.TransactionType;
+import com.oracle.proxy.UserProxy;
 import com.oracle.service.TransactionService;
+
 
 @RestController
 @RequestMapping("/transactions")
@@ -57,7 +59,15 @@ public class TransactionAPI {
 	public List<Transaction> searchByProductName(@RequestParam("name") TransactionType name){
 		return transaction_service.searchByTransactionName(name);
 	}
-
+	
+	@Autowired
+	private UserProxy userproxy;
+	@GetMapping("/balance/{uid}")
+	 public float feignClient(@PathVariable("uid")  long uid) {
+		float balance = userproxy.getBalanceById(uid);
+	    System.out.println("Fetched balance from user-service: " + balance);
+	    return balance;
+	 }
 
 }
 
