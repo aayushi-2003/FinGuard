@@ -1,6 +1,9 @@
 package com.oracle.budgetservice.controller;
 import com.oracle.budgetservice.model.Budget;
 import com.oracle.budgetservice.service.BudgetService;
+import com.oracle.proxy.UserProxy;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -33,12 +36,23 @@ public class BudgetController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Budget> updateBudget(@PathVariable Long id, @RequestBody Budget budget) {
-        try {
-            Budget updated = budgetService.updateBudget(id, budget);
-            return ResponseEntity.ok(updated);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        Budget updated = budgetService.updateBudget(id, budget);
+        return ResponseEntity.ok(updated);
+    }
+    
+	@Autowired
+	private UserProxy userproxy;
+	@GetMapping("/balance/{uid}")
+	 public float feignClient(@PathVariable("uid")  long uid) {
+		float balance = userproxy.getBalanceById(uid);
+	    System.out.println("Fetched balance from user-service: " + balance);
+	    return balance;
+	 }
+    
+    @PutMapping("/updatespent/{id}")
+    public ResponseEntity<Budget> updateSpentAmount(@PathVariable Long id, @RequestBody Budget budget) {
+    	Budget updated = budgetService.updateSpentAmount(id, budget);
+    	return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/delete/{id}")

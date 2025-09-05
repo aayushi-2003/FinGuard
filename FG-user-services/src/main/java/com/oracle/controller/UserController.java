@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8000")
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
+	@Autowired
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -39,6 +40,16 @@ public class UserController {
                 .orElseThrow(() -> new UserNotFoundException(id));
         return ResponseEntity.ok(user);
     }
+    
+    @GetMapping("/balance/{id}")
+    public float getBalanceById(@PathVariable Long id) {
+        return userService.getBalanceById(id);
+    }
+    
+    @PutMapping("/{id}/balance")
+    public void updateBalance(@PathVariable Long id, @RequestBody float newBalance) {
+        userService.updateBalance(id, newBalance);
+    }
 
     // Get user by username
     @GetMapping("/username/{username}")
@@ -47,6 +58,7 @@ public class UserController {
                 .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
         return ResponseEntity.ok(user);
     }
+    
 
     // Get user by email
     @GetMapping("/email/{email}")
@@ -67,5 +79,16 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @PostMapping("/auth/login")
+    public ResponseEntity<?> authenticate(@RequestBody User loginRequest) {
+        User user = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(401).body("Invalid username or password");
+        }
     }
 }

@@ -2,13 +2,17 @@ package com.oracle.service;
 
 import com.oracle.model.User;
 import com.oracle.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Component 
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -26,6 +30,11 @@ public class UserService {
     // Get user by ID
     public Optional<User> getUserById(Long userId) {
         return userRepository.findByUserId(userId);
+    }
+
+    public float getBalanceById(Long userid) {
+    	User user = userRepository.findByUserId(userid).get(); 
+    	return user.getCurrentBalance();
     }
 
     // Get user by username
@@ -63,4 +72,23 @@ public class UserService {
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
+
+	public void updateBalance(Long id, float newBalance) {
+    	User user = userRepository.findByUserId(id).get(); 	
+    	user.setCurrentBalance(newBalance);
+	}
+
+	public User authenticate(String username, String password) {
+	    Optional<User> userOpt = userRepository.findByUsername(username);
+
+	    if (userOpt.isPresent()) {
+	        User user = userOpt.get();
+	        if (user.getPassword().equals(password)) {
+	            return user;
+	        }
+	    }
+
+	    return null;
+	}
+
 }
