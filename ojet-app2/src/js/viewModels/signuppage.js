@@ -14,7 +14,6 @@ define([
     var self = this;
 
     // Observables for form fields
-    self.userid=ko.observable("");
     self.username = ko.observable("");
     self.email = ko.observable("");
     self.password = ko.observable("");
@@ -28,7 +27,6 @@ define([
 
     self.signup = () => {
       const payload = {
-        userId: self.userid(),
         username: self.username(),
         email: self.email(),
         password: self.password(),
