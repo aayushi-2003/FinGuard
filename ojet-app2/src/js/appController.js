@@ -96,16 +96,18 @@ define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojknocko
 
       // Header
       // Application Name used in Branding Area
-      this.appName = ko.observable("App Name");
+      this.appName = ko.observable("App Name"); 
       // User Info used in Global Navigation area
-      this.userLogin = ko.observable("john.hancock@oracle.com");
+      let storedUser = localStorage.getItem("username");
+      this.userLogin = ko.observable(storedUser || "Guest");      
+      
       this.signout=()=>{
         alert("ss")
         this.isConnected(false);
         this.goToPage("loginpage");
       }
       // Footer
-      this.footerLinks = [
+      this.footerLinks = [ 
         {name: 'About Oracle', linkId: 'aboutOracle', linkTarget:'http://www.oracle.com/us/corporate/index.html#menu-about'},
         { name: "Contact Us", id: "contactUs", linkTarget: "http://www.oracle.com/us/corporate/contact/index.html" },
         { name: "Legal Notices", id: "legalNotices", linkTarget: "http://www.oracle.com/us/legal/index.html" },

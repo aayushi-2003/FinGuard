@@ -23,6 +23,7 @@ define([
         password: self.pwd()
       };
 
+
       // 👇 Adjust URL based on your backend's port and path
       fetch("http://localhost:8060/users/auth/login", {
         method: "POST",
@@ -38,8 +39,8 @@ define([
             // ✅ Successful login
             localStorage.setItem("isConnected", true);
             localStorage.setItem("userRole", data.roleId); // assuming roleId is returned
-            localStorage.setItem("userName", data.username);
-            localStorage.setItem("userId", data.userId);
+            localStorage.setItem("username", data.username);
+            localStorage.setItem("userId", data.userId);            localStorage.setItem("email", data.email);
 
             app.isConnected(true);
             app.userLogin(data.username);
