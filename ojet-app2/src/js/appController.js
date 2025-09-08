@@ -18,10 +18,10 @@ define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojknocko
      let conStatus=localStorage.getItem("isConnected");
      console.log(conStatus);
      this.isConnected=ko.observable(false);
-     if(conStatus==null || conStatus==false )
-         this.isConnected(false);
-     else if( conStatus==true )
-       this.isConnected(true);
+      if (conStatus === null || conStatus === "false")
+        this.isConnected(false);
+      else if (conStatus === "true")
+        this.isConnected(true);
        console.log(this.isConnected())
       this.KnockoutTemplateUtils = KnockoutTemplateUtils;
 
@@ -42,16 +42,15 @@ define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojknocko
       const mdQuery = ResponsiveUtils.getFrameworkQuery(ResponsiveUtils.FRAMEWORK_QUERY_KEY.MD_UP);
       this.mdScreen = ResponsiveKnockoutUtils.createMediaQueryObservable(mdQuery);
 
-      let navData = [
-        { path: '', redirect: 'loginpage' },
-        { path: 'signuppage', detail: { label: 'Sign Up', iconClass: 'oj-ux-ico-contact' } },
-        { path: 'loginpage', detail: { label: 'Login', iconClass: 'oj-ux-ico-bar-chart' } },
-        { path: 'dashboard', detail: { label: 'Dashboard', iconClass: 'oj-ux-ico-bar-chart' } },
-        { path: 'incidents', detail: { label: 'Incidents', iconClass: 'oj-ux-ico-fire' } },
-        { path: 'customers', detail: { label: 'Customers', iconClass: 'oj-ux-ico-contact-group' } },
-        { path: 'about', detail: { label: 'About', iconClass: 'oj-ux-ico-information-s' } },
-
-      ];
+  let navData = [
+    { path: '', redirect: 'loginpage' },
+    { path: 'signuppage', detail: { label: 'Sign Up', iconClass: 'oj-ux-ico-contact' } },
+    { path: 'loginpage', detail: { label: 'Login', iconClass: 'oj-ux-ico-bar-chart' } },
+    { path: 'dashboard', detail: { label: 'Dashboard', iconClass: 'oj-ux-ico-bar-chart' } },
+    { path: 'incidents', detail: { label: 'Incidents', iconClass: 'oj-ux-ico-fire' } },
+    { path: 'customers', detail: { label: 'Customers', iconClass: 'oj-ux-ico-contact-group' } },
+    { path: 'about', detail: { label: 'About', iconClass: 'oj-ux-ico-information-s' } },
+  ];
 
       // Router setup
       this. router = new CoreRouter(navData, {
@@ -68,7 +67,17 @@ define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojknocko
       // Setup the navDataProvider with the routes, excluding the first redirected
       // route.
     //  this.navDataProvider = new ArrayDataProvider(navData.slice(1), {keyAttributes: "path"});
-    this.navDataProvider = ko.observable(new ArrayDataProvider(navData.slice(2), {keyAttributes: "path"}));
+    this.navDataProvider = ko.observable();
+    const updateNavDataProvider = () => {
+      let filteredNav = navData.slice(2); // remove '' and signuppage
+      if (this.isConnected()) {
+        filteredNav = filteredNav.filter(item => item.path !== 'loginpage');
+      }
+      this.navDataProvider(new ArrayDataProvider(filteredNav, { keyAttributes: "path" }));
+    };
+    updateNavDataProvider();
+
+
     this.setAdminMenu=()=>{
       console.log("setting menu")
      this.navDataProvider(new ArrayDataProvider(navData.slice(5), {keyAttributes: "path"}));
