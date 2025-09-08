@@ -1,15 +1,26 @@
 
 define(['../accUtils', "require", "exports", "knockout", "ojs/ojbootstrap", 
-"text!../basicData.json",
+"text!../roleData.json",
  "ojs/ojarraydataprovider", "ojs/ojknockout", "ojs/ojchart", "ojs/ojtoolbar"],
  function(accUtils,require,exports, ko, ojbootstrap_1, data, ArrayDataProvider) {
     function DashboardViewModel() {
-      console.log(data);
+      var userRole = localStorage.getItem('userRole'); 
+      console.log(userRole);
       this.stackValue = ko.observable('off');
       this.orientationValue = ko.observable('vertical');
-      this.dataProvider = new ArrayDataProvider(JSON.parse(data), {
-        keyAttributes: 'id'
-    });
+
+      var dashboardData = JSON.parse(data);
+
+      let roleData;
+      if (userRole === 'admin') {
+        roleData = dashboardData.adminData;
+      } else if (userRole === 'advisor') {
+        roleData = dashboardData.advisorData;
+      } else {
+        roleData = dashboardData.userData;
+      }
+
+      
     }  
     return DashboardViewModel;
   }
