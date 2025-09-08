@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8000")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -57,6 +58,7 @@ public class UserController {
                 .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
         return ResponseEntity.ok(user);
     }
+    
 
     // Get user by email
     @GetMapping("/email/{email}")
@@ -77,5 +79,16 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @PostMapping("/auth/login")
+    public ResponseEntity<?> authenticate(@RequestBody User loginRequest) {
+        User user = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(401).body("Invalid username or password");
+        }
     }
 }

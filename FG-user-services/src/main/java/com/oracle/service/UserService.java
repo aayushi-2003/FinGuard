@@ -77,4 +77,18 @@ public class UserService {
     	User user = userRepository.findByUserId(id).get(); 	
     	user.setCurrentBalance(newBalance);
 	}
+
+	public User authenticate(String username, String password) {
+	    Optional<User> userOpt = userRepository.findByUsername(username);
+
+	    if (userOpt.isPresent()) {
+	        User user = userOpt.get();
+	        if (user.getPassword().equals(password)) {
+	            return user;
+	        }
+	    }
+
+	    return null;
+	}
+
 }

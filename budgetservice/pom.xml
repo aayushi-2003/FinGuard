@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.oracle</groupId>
-	<artifactId>FG-transaction-debt</artifactId>
+	<artifactId>budgetservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>FG-transaction-debt</name>
 	<description>Demo project for Spring Boot</description>
