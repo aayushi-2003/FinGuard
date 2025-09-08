@@ -1,4 +1,6 @@
 package com.oracle.model;
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +22,10 @@ public class Debt {
 	private float interestRate;
 	private String startDate;
 	private String endDate;
+	private String email;
+	private boolean reminded;
+	
+	   private LocalDate dueDate;
 	
 	@Enumerated(EnumType.STRING)
 	private PaymentSchedule paymentSchedule;	
