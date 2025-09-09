@@ -1,27 +1,32 @@
+define([
+  '../accUtils',
+  "require", "exports", "knockout", "ojs/ojbootstrap", 
+  "text!../roleData.json",
+  "ojs/ojarraydataprovider", "ojs/ojknockout", "ojs/ojchart", "ojs/ojtoolbar"
+], function(accUtils, require, exports, ko, ojbootstrap_1, data, ArrayDataProvider) {
+  
+  function DashboardViewModel() {
+    accUtils.announce("Dashboard page loaded.", "assertive");
 
-define(['../accUtils', "require", "exports", "knockout", "ojs/ojbootstrap", 
-"text!../roleData.json",
- "ojs/ojarraydataprovider", "ojs/ojknockout", "ojs/ojchart", "ojs/ojtoolbar"],
- function(accUtils,require,exports, ko, ojbootstrap_1, data, ArrayDataProvider) {
-    function DashboardViewModel() {
-      var userRole = localStorage.getItem('userRole'); 
-      console.log(userRole);
-      this.stackValue = ko.observable('off');
-      this.orientationValue = ko.observable('vertical');
+    // 🔸 Observable role for HTML bindings
+    this.userRole = ko.observable(localStorage.getItem('userRole') || "guest");
 
-      var dashboardData = JSON.parse(data);
+    this.stackValue = ko.observable('off');
+    this.orientationValue = ko.observable('vertical');
 
-      let roleData;
-      if (userRole === 'admin') {
-        roleData = dashboardData.adminData;
-      } else if (userRole === 'advisor') {
-        roleData = dashboardData.advisorData;
-      } else {
-        roleData = dashboardData.userData;
-      }
+    var dashboardData = JSON.parse(data);
 
-      
-    }  
-    return DashboardViewModel;
+    let roleData;
+    if (this.userRole() === 'admin') {
+      roleData = dashboardData.adminData;
+    } else if (this.userRole() === 'advisor') {
+      roleData = dashboardData.advisorData;
+    } else {
+      roleData = dashboardData.userData;
+    }
+
+    // You can add more logic using `roleData` here if needed
   }
-);
+
+  return DashboardViewModel;
+});
