@@ -44,13 +44,8 @@ define([
 
             app.isConnected(true);
             app.userLogin(data.username);
+            app.goToPage("dashboard");
 
-            if (data.roleId.toLowerCase() === "admin") {
-              app.setAdminMenu();
-              app.goToPage("products");
-            } else {
-              app.goToPage("dashboard");
-            }
           } else {
             // ❌ Invalid credentials
             alert("Invalid username or password");

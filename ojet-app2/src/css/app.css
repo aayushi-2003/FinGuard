@@ -48,3 +48,57 @@ html[dir="rtl"] .demo-oracle-icon {
       transform:translate(-25%, -25%) scale(0.5)
   }
 }
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Profile Card */
+.profile-card {
+  margin-right: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.profile-card .avatar {
+  margin: 30px;
+  border-radius: 50%;
+  width: 115px;
+  margin-bottom: 10px;
+}
+
+.profile-card .name {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.profile-card .meta {
+  color: #777;
+  font-size: 14px;
+}
+
+.profile-list {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Card Style for Table + Charts */
+.chart-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin: 10px ;
+}
