@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Signup } from './auth/signup/signup';
-import { Login } from './auth/login/login';
+import { Login} from './auth/login/login';
 import { Admin } from './dashboard/admin/admin';
 import { User } from './dashboard/user/user';
 import { Advisor } from './dashboard/advisor/advisor';
