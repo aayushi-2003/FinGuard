@@ -1,0 +1,104 @@
+<div class="oj-flex dashboard oj-sm-margin-4x">
+  
+  <!-- Top Row: Profile + Table -->
+  <div class="oj-flex oj-sm-flex-wrap oj-sm-margin-bottom-4x" style="width:100%">
+
+    <!-- Profile Card -->
+    <div class="oj-sm-3 oj-flex-item" >
+      <div class="card profile-card">
+        <div class="card-header">
+          <div class="card-title">User Profile</div>
+        </div>
+        <div class="oj-flex oj-sm-justify-content-center oj-sm-text-align-center">
+          <div>
+            <img class="avatar" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Avatar" />
+            <div class="name" data-bind="text: username"></div>
+            <div class="meta" data-bind="text: email"></div>
+          </div>
+        </div>
+        <ul class="profile-list oj-sm-margin-top-10x">
+          <li><span>Role</span><span data-bind="text: roleId"></span></li>
+          <li><span>User ID</span><span data-bind="text: userId"></span></li>
+          <li><span>Current Balance</span><span data-bind="text: balance"></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="oj-sm-9 oj-flex-item">
+      <div class="chart-card">
+        <h4>All Users</h4>
+        <oj-table id="userTable"
+                  aria-label="User Table"
+                  data="[[userDataProvider]]"
+                  style="width:100%; height:250px;"
+                
+                  columns='[
+                    {"headerText": "User ID", "field": "userId"},
+                    {"headerText": "Username", "field": "username"},
+                    {"headerText": "Email", "field": "email"},
+                    {"headerText": "Role", "field": "roleId"},
+                    {"headerText": "Balance", "field": "currentBalance"}
+                  ]'>
+        </oj-table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Row: Charts -->
+  <div class="oj-flex oj-sm-flex-wrap " style="width:100%">
+
+     <!-- Row 1: Chart 1 & Chart 2 -->
+  <div class="oj-flex oj-sm-flex-wrap" style="width:100%">
+    <div class="chart-card oj-flex-item" style="width: fit-content;">
+      <h3>Users by Role</h3>
+      <oj-chart id="roleChart"
+                type="pie"
+                series="[[roleSeries]]"
+                animation-on-display="auto"
+                animation-on-data-change="auto"
+                style="width:100%; height:300px;">
+      </oj-chart>
+    </div>
+    <div class="chart-card oj-flex-item ">
+      <h3>Top 5 Users by Balance</h3>
+      <oj-chart id="topUsersChart"
+                type="bar"
+                orientation="vertical"
+                series="[[topUserSeries]]"
+                groups="[[topUserGroups]]"
+                animation-on-display="auto"
+                animation-on-data-change="auto"
+                style="width:100%; height:300px;">
+      </oj-chart>
+    </div>
+  </div>
+    
+
+      <!-- Row 2: Chart 3 & Chart 4 -->
+  <div class="oj-flex oj-sm-flex-wrap" style="width:100%; margin-top:24px;">
+    <div class="chart-card oj-flex-item ">
+      <h3>Balance Distribution</h3>
+      <oj-chart id="balanceDistChart"
+                type="bar"
+                orientation="vertical"
+                series="[[balanceDistSeries]]"
+                groups="[[balanceDistGroups]]"
+                animation-on-display="auto"
+                animation-on-data-change="auto"
+                style="width:100%; height:300px;">
+      </oj-chart>
+    </div>
+    <div class="chart-card oj-flex-item ">
+      <h3>Total Balance Share by Role</h3>
+      <oj-chart id="balanceShareChart"
+                type="pie"
+                inner-radius="0.5"
+                series="[[balanceShareSeries]]"
+                animation-on-display="auto"
+                animation-on-data-change="auto"
+                style="width:100%; height:300px;">
+      </oj-chart>
+    </div>
+  </div>
+</div>

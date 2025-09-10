@@ -49,6 +49,13 @@ html[dir="rtl"] .demo-oracle-icon {
   }
 }
 
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Profile Card */
 .profile-card {
   margin-right: 24px;
   background: #fff;
@@ -56,11 +63,14 @@ html[dir="rtl"] .demo-oracle-icon {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 20px;
 }
+
 .profile-card .avatar {
+  margin: 30px;
   border-radius: 50%;
-  width: 100px;
+  width: 115px;
   margin-bottom: 10px;
 }
+
 .profile-card .name {
   font-weight: bold;
   font-size: 18px;
@@ -73,6 +83,7 @@ html[dir="rtl"] .demo-oracle-icon {
   list-style: none;
   padding: 0;
 }
+
 .profile-list li {
   display: flex;
   justify-content: space-between;
@@ -80,6 +91,7 @@ html[dir="rtl"] .demo-oracle-icon {
   font-size: 14px;
   border-bottom: 1px solid #eee;
 }
+
 /* Card Style for Table + Charts */
 .chart-card {
   background: #fff;

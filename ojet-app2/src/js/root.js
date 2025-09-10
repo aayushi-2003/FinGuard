@@ -9,11 +9,11 @@ require([
   Logger
 ) {
   Bootstrap.whenDocumentReady().then(function () {
+    // :white_check_mark: Register the custom component before bindings
     function init() {
       // Bind your ViewModel for the content of the whole page body.
       ko.applyBindings(app, document.getElementById('globalBody'));
     }
-
     // Wait for deviceready if in hybrid mode
     if (document.body.classList.contains('oj-hybrid')) {
       document.addEventListener('deviceready', init);
@@ -22,3 +22,15 @@ require([
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
