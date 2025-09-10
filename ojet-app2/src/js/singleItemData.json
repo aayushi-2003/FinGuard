@@ -1,0 +1,5 @@
+[
+  { "name": "Stocks", "value": 50000 },
+  { "name": "Bonds", "value": 30000 },
+  { "name": "Mutual Funds", "value": 20000 }
+]

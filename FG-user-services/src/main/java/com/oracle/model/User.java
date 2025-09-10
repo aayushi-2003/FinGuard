@@ -36,5 +36,6 @@ public class User {
     
     @Column
     private float currentBalance;
+
 }
 

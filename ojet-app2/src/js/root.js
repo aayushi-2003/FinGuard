@@ -1,6 +1,7 @@
 require([
   'ojs/ojbootstrap', 'knockout', './appController', 'ojs/ojlogger', 'ojs/ojknockout',
  'ojs/ojmodule', 'ojs/ojrouter', 'ojs/ojnavigationlist', 'ojs/ojbutton', 'ojs/ojtoolbar'
+
 ], function (
   Bootstrap,
   ko,

@@ -75,12 +75,10 @@ html[dir="rtl"] .demo-oracle-icon {
   font-weight: bold;
   font-size: 18px;
 }
-
 .profile-card .meta {
   color: #777;
   font-size: 14px;
 }
-
 .profile-list {
   list-style: none;
   padding: 0;
@@ -102,3 +100,24 @@ html[dir="rtl"] .demo-oracle-icon {
   padding: 20px;
   margin: 10px ;
 }
+
+#portfolioTable {
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

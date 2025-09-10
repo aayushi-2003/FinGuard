@@ -3,16 +3,14 @@
   <div>
     <!-- Admin -->
     <div data-bind="if: userRole() === 'admin'">
-      <!-- <h2>Admin Dashboard</h2> -->
+      <h2>Admin Dashboard</h2>
       <div data-bind="ojModule: {name: 'admin-dashboard'}"></div>
     </div>
-
     <!-- Advisor -->
     <div data-bind="if: userRole() === 'advisor'">
       <h2>Advisor Dashboard</h2>
       <div data-bind="ojModule: {name: 'advisor-dashboard'}"></div>
     </div>
-
     <!-- User -->
     <div data-bind="if: userRole() === 'user'">
       <h2>User Dashboard</h2>
