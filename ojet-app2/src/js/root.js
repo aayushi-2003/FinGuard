@@ -1,25 +1,14 @@
 require([
-  'ojs/ojbootstrap',
-  'knockout',
-  './appController',
-  'ojs/ojlogger',
-  'text!views/advisor-dashboard.html',
-  'viewModels/advisor-dashboard'
+  'ojs/ojbootstrap', 'knockout', './appController', 'ojs/ojlogger', 'ojs/ojknockout',
+ 'ojs/ojmodule', 'ojs/ojrouter', 'ojs/ojnavigationlist', 'ojs/ojbutton', 'ojs/ojtoolbar'
+
 ], function (
   Bootstrap,
   ko,
   app,
-  Logger,
-  advisorTemplate,
-  AdvisorViewModel
+  Logger
 ) {
   Bootstrap.whenDocumentReady().then(function () {
-    // ✅ Register the custom component before bindings
-    ko.components.register('advisor-dashboard', {
-      viewModel: AdvisorViewModel,
-      template: advisorTemplate
-    });
-
     function init() {
       // Bind your ViewModel for the content of the whole page body.
       ko.applyBindings(app, document.getElementById('globalBody'));

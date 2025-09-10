@@ -22,6 +22,7 @@ define([
         username: self.username(),
         password: self.pwd()
       };
+            app.isConnected(true);
 
 
       // 👇 Adjust URL based on your backend's port and path
@@ -40,17 +41,13 @@ define([
             localStorage.setItem("isConnected", true);
             localStorage.setItem("userRole", data.roleId); // assuming roleId is returned
             localStorage.setItem("username", data.username);
-            localStorage.setItem("userId", data.userId);            localStorage.setItem("email", data.email);
+            localStorage.setItem("userId", data.userId);
+            localStorage.setItem("email", data.email);
 
             app.isConnected(true);
             app.userLogin(data.username);
+            app.goToPage("dashboard");
 
-            if (data.roleId.toLowerCase() === "admin") {
-              app.setAdminMenu();
-              app.goToPage("products");
-            } else {
-              app.goToPage("dashboard");
-            }
           } else {
             // ❌ Invalid credentials
             alert("Invalid username or password");
