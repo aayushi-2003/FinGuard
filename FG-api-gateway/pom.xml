@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.oracle</groupId>
-	<artifactId>20-api-gateway</artifactId>
+	<artifactId>FG-api-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>20-api-gateway</name>
+	<name>FG-api-gateway</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

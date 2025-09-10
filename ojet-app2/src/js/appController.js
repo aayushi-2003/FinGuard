@@ -18,7 +18,7 @@ define(['knockout', 'ojs/ojcontext', 'ojs/ojmodule-element-utils', 'ojs/ojknocko
      let conStatus=localStorage.getItem("isConnected");
      console.log(conStatus);
      this.isConnected=ko.observable(false);
-      if (conStatus === null || conStatus === "false")
+      if (conStatus === null || conStatus === false)
         this.isConnected(false);
       else if (conStatus === "true")
         this.isConnected(true);
