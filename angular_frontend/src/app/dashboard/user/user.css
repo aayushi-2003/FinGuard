@@ -1,0 +1,13 @@
+/* user.css */
+.navbar {
+  border-radius: 0.25rem;
+}
+
+.nav-tabs .nav-link {
+  cursor: pointer;
+}
+
+.tab-content {
+  background-color: #f8f9fa;
+  min-height: 150px;
+}
