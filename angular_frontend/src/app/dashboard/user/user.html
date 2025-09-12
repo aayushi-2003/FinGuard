@@ -1,1 +1,63 @@
-<p>user works!</p>
+<!-- user.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">User Dashboard</a>
+
+    <div class="dropdown ms-auto">
+      <button
+        class="btn btn-outline-light dropdown-toggle"
+        type="button"
+        id="userMenuButton"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        {{ username }}
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
+        <li><a class="dropdown-item" routerLink="/profile">View My Profile</a></li>
+        <!-- Add more dropdown items if needed -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container">
+  <ul class="nav nav-tabs" id="userTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab">
+        Transactions
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="goals-tab" data-bs-toggle="tab" data-bs-target="#goals" type="button" role="tab">
+        Goals
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="budgets-tab" data-bs-toggle="tab" data-bs-target="#budgets" type="button" role="tab">
+        Budgets
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="portfolio-tab" data-bs-toggle="tab" data-bs-target="#portfolio" type="button" role="tab">
+        Portfolio
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content p-3 border border-top-0" id="userTabsContent">
+    <div class="tab-pane fade show active" id="transactions" role="tabpanel">
+        
+    </div>
+    <div class="tab-pane fade" id="goals" role="tabpanel">
+      <p>Goals tab works!</p>
+    </div>
+    <div class="tab-pane fade" id="budgets" role="tabpanel">
+      <p>Budgets tab works!</p>
+    </div>
+    <div class="tab-pane fade" id="portfolio" role="tabpanel">
+      <p>Portfolio tab works!</p>
+    </div>
+  </div>
+</div>
