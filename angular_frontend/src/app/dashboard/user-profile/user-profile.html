@@ -1,0 +1,38 @@
+<div class="container mt-5" style="max-width: 500px;">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">My Profile</h3>
+    </div>
+    <div class="card-body">
+      <p><strong>Username:</strong> {{username}}</p>
+      <p><strong>Email:</strong> {{email}}</p>
+      <p><strong>Role:</strong> <span class="badge bg-info text-dark">{{userRole}}</span></p>
+
+      <button class="btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#roleChangeModal">
+        Request Role Change
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="roleChangeModal" tabindex="-1" aria-labelledby="roleChangeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form >
+        <div class="modal-header">
+          <h5 class="modal-title" id="roleChangeModalLabel">Request Role Change</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Request to change your role. Please provide any additional info below:</p>
+          <textarea class="form-control" rows="3"  name="message" placeholder="Enter your message"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Send Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,7 @@ import { Login} from './auth/login/login';
 import { Admin } from './dashboard/admin/admin';
 import { User } from './dashboard/user/user';
 import { Advisor } from './dashboard/advisor/advisor';
+import { UserProfile } from './dashboard/user-profile/user-profile';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'admin', component: Admin },
   { path: 'user', component: User },
   { path: 'advisor', component: Advisor },
+  { path: 'profile', component: UserProfile },
   { path: '**', redirectTo: '/login' }
 ];
 

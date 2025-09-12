@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './user.css'
 })
 export class User {
-
+  user = JSON.parse(localStorage.getItem('user') || '{}');
+  username = this.user.username || 'Guest';
 }

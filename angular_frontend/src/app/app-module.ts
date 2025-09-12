@@ -11,6 +11,7 @@ import { User } from './dashboard/user/user';
 import { Advisor } from './dashboard/advisor/advisor';
 
 import { AppRoutingModule } from './app-routing-module';
+import { UserProfile } from './dashboard/user-profile/user-profile';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AppRoutingModule } from './app-routing-module';
     Login,
     Admin,
     User,
-    Advisor
+    Advisor,
+    UserProfile
   ],
   imports: [
     BrowserModule,
