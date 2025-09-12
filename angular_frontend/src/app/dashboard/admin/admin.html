@@ -1,1 +1,26 @@
-<p>admin works!</p>
+<h2>All Users</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>User ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Current Balance</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.userId }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.roleId }}</td>
+      <td>{{ user.currentBalance }}</td>
+      <td>
+        <button (click)="deleteUser(user.userId)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
