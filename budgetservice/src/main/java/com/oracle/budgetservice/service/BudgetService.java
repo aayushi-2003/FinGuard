@@ -19,6 +19,10 @@ public class BudgetService {
         this.userProxy = userProxy;
     }
     
+    public List getAllBudgets() {
+    	return budgetRepository.findAll();
+    	}
+    
     public Budget createBudget(Budget budget) {
         Long userId = budget.getUserId();
 

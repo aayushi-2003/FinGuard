@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8000")
 @RestController
 @RequestMapping("/budget")
 public class BudgetController {
@@ -16,6 +17,11 @@ public class BudgetController {
         this.budgetService = budgetService;
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List> getAllBudgets() {
+    return ResponseEntity.ok(budgetService.getAllBudgets());
+    }
+    
     @PostMapping("/set")
     public ResponseEntity<Budget> createBudget( @RequestBody Budget budget) {
         Budget created = budgetService.createBudget(budget);

@@ -17,7 +17,7 @@ public class Goal {
     private Long userId;
 
     @Column(nullable = false)
-    private String name;
+    private String budgetname;
 
     @Column(nullable = false)
     private Double targetAmount;

@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-
 public interface DebtRepository extends JpaRepository<Debt, Integer> {
     List<Debt> findByPaymentSchedule(PaymentSchedule paymentSchedule);
     List<Debt> findByDebtStatus(DebtStatus debtStatus);

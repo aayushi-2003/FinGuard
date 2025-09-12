@@ -41,6 +41,9 @@ public class TransactionServiceImpl implements TransactionService{
 
 	};
 	
+    public List<Transaction> findByUserId(Long userId) {
+        return transaction_repo.findByUserId(userId);
+    }
 	public Transaction searchTransactionById(int id) {
 		return transaction_repo.findById(id).orElseThrow(()->new ApplicationException("Transaction id " + id +" not found"));
 

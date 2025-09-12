@@ -47,6 +47,10 @@
   </head>
   <body class="oj-web-applayout-body">
     <!-- Template for rendering navigation items shared between nav bar and nav list -->
+   <div id="dashboard"
+     data-bind="ojModule: { name: 'user-dashboard' }">
+</div>
+
     <script type="text/html" id="navTemplate">
       <li><a href="#">
         <span :class="[[$data.detail.iconClass]]"></span>
