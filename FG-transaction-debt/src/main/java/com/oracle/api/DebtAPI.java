@@ -2,6 +2,7 @@ package com.oracle.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,7 @@ import com.oracle.model.PaymentSchedule;
 import com.oracle.service.DebtService;
 import com.oracle.model.DebtStatus;
 
-
+@CrossOrigin(origins = "http://localhost:8000")
 @RestController
 @RequestMapping("/debt")
 public class DebtAPI {
@@ -43,6 +44,8 @@ public class DebtAPI {
 	public Debt updateProduct(@RequestBody Debt p, @PathVariable("id") int id) {
 		return debtService.updateDebtService(p, id);
 	}
+	
+	 
 	
 	
 	@DeleteMapping("/{id}")

@@ -16,12 +16,15 @@ import jakarta.transaction.Transactional;
 @Component
 @Transactional
 public class DebtServiceImpl implements DebtService {
+	@Autowired
 	private DebtRepository debtrepository;
-	
+	@Override
 	public Debt addDebtService(Debt t) {
 		return debtrepository.save(t);
 
 	};
+	
+	  
 	
 	public Debt searchDebtById(int id) {
 		return debtrepository.findById(id).orElseThrow(()->new ApplicationException("Transaction id " + id +" not found"));

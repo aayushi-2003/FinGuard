@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard</title>
+
+  <!-- Oracle JET CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/oraclejet/14.1.0/css/alta/oj-alta-min.css"/>
+
+  <!-- FullCalendar -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+  <style>
+    :root {
+      --primary-color: #667eea;
+      --primary-dark: #5a67d8;
+      --secondary-color: #764ba2;
+      --accent-color: #f093fb;
+      --success-color: #48bb78;
+      --warning-color: #ed8936;
+      --error-color: #f56565;
+      --info-color: #4299e1;
+      
+      /* Light theme */
+      --bg-primary: #f7fafc;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #edf2f7;
+      --text-primary: #2d3748;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --border-color: #e2e8f0;
+      --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.15);
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-tertiary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #1a202c;
+      --bg-secondary: #2d3748;
+      --bg-tertiary: #4a5568;
+      --text-primary: #f7fafc;
+      --text-secondary: #e2e8f0;
+      --text-muted: #a0aec0;
+      --border-color: #4a5568;
+      --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: all 0.3s ease;
+    }
+
+    /* Header */
+    .header {
+      background: var(--bg-secondary);
+      padding: 1rem 2rem;
+      box-shadow: var(--shadow-light);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border-color);
+      border-radius: 50px;
+      width: 60px;
+      height: 30px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--primary-color);
+    }
+
+    .theme-toggle-slider {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    [data-theme="light"] .theme-toggle-slider::after {
+      content: '☀️';
+    }
+
+    [data-theme="dark"] .theme-toggle-slider {
+      transform: translateX(28px);
+    }
+
+    [data-theme="dark"] .theme-toggle-slider::after {
+      content: '🌙';
+    }
+
+    /* Main Container */
+    .main-container {
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Dashboard Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 2rem;
+      grid-template-areas:
+        "profile pie bar"
+        "goals transactions transactions";
+    }
+
+    @media (max-width: 1200px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "profile pie"
+          "bar bar"
+          "goals transactions";
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "profile"
+          "pie"
+          "bar"
+          "goals"
+          "transactions";
+      }
+    }
+
+    /* Profile Card */
+    .profile-card {
+      grid-area: profile;
+      background: var(--bg-secondary);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-medium);
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-primary);
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .profile-header h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .avatar-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .avatar-container img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 4px solid var(--primary-color);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .avatar-container:hover img {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .profile-info {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .profile-info li {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+
+    .profile-info li:last-child {
+      border-bottom: none;
+    }
+
+    .profile-info li strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+      min-width: 70px;
+    }
+
+    .profile-info li span {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .gender-selector {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .gender-selector label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Chart Cards */
+    .chart-card {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-medium);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-heavy);
+    }
+
+    .chart-card h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chart-card h4::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      border-radius: 2px;
+      background: var(--gradient-primary);
+    }
+
+    /* Grid Area Assignments */
+    .pie-chart { grid-area: pie; }
+    .bar-chart { grid-area: bar; }
+    .line-chart { grid-area: goals; }
+    .transactions-chart { grid-area: transactions; }
+
+    /* Calendar Card */
+    .calendar-card {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-medium);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .calendar-card h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .calendar-card h4::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      border-radius: 2px;
+      background: var(--gradient-tertiary);
+    }
+
+    /* Specific chart card styles */
+    .pie-chart h4::before { background: var(--gradient-primary); }
+    .bar-chart h4::before { background: var(--gradient-secondary); }
+    .line-chart h4::before { background: var(--gradient-tertiary); }
+    .transactions-chart h4::before { background: var(--gradient-primary); }
+
+    /* Oracle JET Components Styling */
+    .oj-select-single .oj-select-single-choice {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+    }
+
+    .oj-select-single .oj-select-single-choice:hover {
+      border-color: var(--primary-color);
+    }
+
+    /* Loading states */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      color: var(--text-muted);
+    }
+
+    .loading::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border-color);
+      border-top: 2px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 0.5rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .main-container {
+        padding: 1rem;
+      }
+      
+      .header {
+        padding: 1rem;
+      }
+      
+      .header h1 {
+        font-size: 1.25rem;
+      }
+      
+      .profile-card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .chart-card, .profile-card, .calendar-card {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .profile-card { animation-delay: 0.1s; }
+    .pie-chart { animation-delay: 0.2s; }
+    .bar-chart { animation-delay: 0.3s; }
+    .calendar-card { animation-delay: 0.4s; }
+    .line-chart { animation-delay: 0.5s; }
+    .transactions-chart { animation-delay: 0.6s; }
+
+    /* FullCalendar theme customization */
+    .fc {
+      color: var(--text-primary);
+    }
+
+    .fc-theme-standard .fc-scrollgrid {
+      border: 1px solid var(--border-color);
+    }
+
+    .fc-theme-standard td, .fc-theme-standard th {
+      border-color: var(--border-color);
+    }
+
+    .fc-button-primary {
+      background: var(--primary-color) !important;
+      border-color: var(--primary-color) !important;
+    }
+
+    .fc-button-primary:hover {
+      background: var(--primary-dark) !important;
+      border-color: var(--primary-dark) !important;
+    }
+
+    .fc-daygrid-day.fc-day-today {
+      background-color: rgba(102, 126, 234, 0.1) !important;
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+<!-- Header -->
+<header class="header">
+  <h1>💰 Personal Finance Dashboard</h1>
+  <div class="header-controls">
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+      <div class="theme-toggle-slider"></div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Container -->
+<div class="main-container" id="dashboardContainer">
+  <div class="dashboard-grid">
+    
+    <!-- Profile Section -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <h3>👤 User Profile</h3>
+        <div class="avatar-container">
+          <img data-bind="attr: { src: selectedGender() === 'female' ? 
+               'https://bootdey.com/img/Content/avatar/avatar8.png' : 
+               'https://bootdey.com/img/Content/avatar/avatar7.png' }" 
+               alt="Profile Avatar" />
+        </div>
+      </div>
+      
+      <ul class="profile-info">
+        <li><strong>Role:</strong> <span data-bind="text: roleId"></span></li>
+        <li><strong>Username:</strong> <span data-bind="text: username"></span></li>
+        <li><strong>Email:</strong> <span data-bind="text: email"></span></li>
+      </ul>
+      
+      <div class="gender-selector">
+        <oj-label for="genderSelect">Select Gender</oj-label>
+        <oj-select-single id="genderSelect" data="[[genderDataProvider]]" 
+                          value="{{selectedGender}}" 
+                          class="oj-sm-margin-2x-top">
+        </oj-select-single>
+      </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="chart-card pie-chart">
+      <h4>📊 Budget Overview</h4>
+      <!-- ko if: isLoadingBudgets() -->
+      <div class="loading">Loading budget data...</div>
+      <!-- /ko -->
+      <!-- ko ifnot: isLoadingBudgets() -->
+      <oj-chart id="pieChart" type="pie" data="[[pieDataProvider]]" style="height:280px;">
+        <template slot="itemTemplate" data-oj-as="item">
+          <oj-chart-item value="[[item.data.value]]" 
+                         group-id="[[ [item.data.group] ]]" 
+                         series-id="[[item.data.name]]">
+          </oj-chart-item>
+        </template>
+      </oj-chart>
+      <!-- /ko -->
+    </div>
+
+    <!-- Bar Chart -->
+    <div class="chart-card bar-chart">
+      <h4>💹 Income vs Expenses</h4>
+      <!-- ko if: isLoadingBudgets() -->
+      <div class="loading">Loading budget data...</div>
+      <!-- /ko -->
+      <!-- ko ifnot: isLoadingBudgets() -->
+      <oj-chart id="barChart" type="bar" data="[[barDataProvider]]" style="height:280px;">
+        <template slot="itemTemplate" data-oj-as="item">
+          <oj-chart-item group-id="[[ [item.data.group] ]]" 
+                         series-id="[[item.data.series]]" 
+                         value="[[item.data.value]]">
+          </oj-chart-item>
+        </template>
+      </oj-chart>
+      <!-- /ko -->
+    </div>
+
+    <!-- Goals Chart -->
+    <div class="chart-card line-chart">
+      <h4>🎯 Goals Progress</h4>
+      <!-- ko if: isLoadingGoals() -->
+      <div class="loading">Loading goals data...</div>
+      <!-- /ko -->
+      <!-- ko ifnot: isLoadingGoals() -->
+      <oj-chart id="lineChart" type="line" data="[[lineDataProvider]]" style="height:280px;">
+        <template slot="itemTemplate" data-oj-as="item">
+          <oj-chart-item group-id="[[ [item.data.group] ]]" 
+                         series-id="[[item.data.series]]" 
+                         value="[[item.data.value]]">
+          </oj-chart-item>
+        </template>
+      </oj-chart>
+      <!-- /ko -->
+    </div>
+
+    <!-- Transactions Chart -->
+    <div class="chart-card transactions-chart">
+      <h4>💳 Transactions Overview</h4>
+      <!-- ko if: isLoadingTransactions() -->
+      <div class="loading">Loading transactions data...</div>
+      <!-- /ko -->
+      <!-- ko ifnot: isLoadingTransactions() -->
+      <oj-chart id="transactionsBarChart" type="bar" orientation="vertical" 
+                data="[[transactionsDataProvider]]" style="height:320px;">
+        <template slot="itemTemplate" data-oj-as="item">
+          <oj-chart-item group-id="[[ [item.data.group] ]]" 
+                         series-id="[[item.data.series]]" 
+                         value="[[item.data.value]]">
+          </oj-chart-item>
+        </template>
+      </oj-chart>
+      <!-- /ko -->
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Global variables
+let dashboardViewModel;
+let calendar;
+
+// Theme toggle functionality - FIXED
+function toggleTheme() {
+  console.log('Toggle clicked!');
+  const body = document.body;
+  const currentTheme = body.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  body.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  // Force re-render calendar if it exists
+  if (calendar) {
+    setTimeout(() => {
+      calendar.render();
+    }, 100);
+  }
+  
+  console.log('Theme switched to:', newTheme);
+}
+
+// Initialize calendar function
+function initCalendar() {
+  console.log('Initializing calendar...');
+  const calendarEl = document.getElementById('calendar');
+  
+  if (!calendarEl) {
+    console.error('Calendar element not found!');
+    return;
+  }
+  
+  // Destroy existing calendar if it exists
+  if (calendar) {
+    calendar.destroy();
+  }
+  
+  calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    height: 450,
+    aspectRatio: 2,
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,listWeek'
+    },
+    themeSystem: 'standard',
+    events: [
+      {
+        title: '💰 Salary Credit',
+        date: new Date().toISOString().split('T')[0],
+        backgroundColor: '#48bb78',
+        borderColor: '#48bb78',
+        textColor: '#ffffff'
+      },
+      {
+        title: '🏠 Rent Payment',
+        date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        backgroundColor: '#f56565',
+        borderColor: '#f56565',
+        textColor: '#ffffff'
+      },
+      {
+        title: '📊 Investment Review',
+        date: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        backgroundColor: '#667eea',
+        borderColor: '#667eea',
+        textColor: '#ffffff'
+      },
+      {
+        title: '🛒 Grocery Budget',
+        date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        backgroundColor: '#ed8936',
+        borderColor: '#ed8936',
+        textColor: '#ffffff'
+      }
+    ],
+    eventClick: function(info) {
+      alert('Event: ' + info.event.title + '\nDate: ' + info.event.start.toDateString());
+    },
+    dateClick: function(info) {
+      console.log('Date clicked:', info.dateStr);
+    }
+  });
+  
+  calendar.render();
+  console.log('Calendar initialized successfully!');
+}
+
+// Load saved theme and initialize
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM Content Loaded');
+  
+  // Load theme
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.body.setAttribute('data-theme', savedTheme);
+  console.log('Theme loaded:', savedTheme);
+  
+  // Initialize calendar after DOM is ready
+  setTimeout(() => {
+    initCalendar();
+  }, 1000);
+});
+</script>
+
+<!-- RequireJS with proper configuration -->
+<script>
+require.config({
+  baseUrl: '.',
+  paths: {
+    'knockout': 'https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest',
+    'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min',
+    'jqueryui-amd': 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min',
+    'ojs': 'https://cdnjs.cloudflare.com/ajax/libs/oraclejet/14.1.0/js/libs/oj/min',
+    'ojL10n': 'https://cdnjs.cloudflare.com/ajax/libs/oraclejet/14.1.0/js/libs/oj/min/ojL10n',
+    'ojtranslations': 'https://cdnjs.cloudflare.com/ajax/libs/oraclejet/14.1.0/js/libs/oj/resources'
+  }
+});
+
+// Set localStorage values if they don't exist (for testing)
+if (!localStorage.getItem('userId')) localStorage.setItem('userId', '1');
+if (!localStorage.getItem('userRole')) localStorage.setItem('userRole', 'Admin');
+if (!localStorage.getItem('username')) localStorage.setItem('username', 'john_doe');
+if (!localStorage.getItem('email')) localStorage.setItem('email', 'john@example.com');
+
+require(['user-dashboard'], function(UserDashboardViewModel) {
+  console.log('Loading Dashboard ViewModel...');
+  dashboardViewModel = new UserDashboardViewModel();
+  
+  // Apply Knockout bindings
+  const dashboardContainer = document.getElementById('dashboardContainer');
+  if (dashboardContainer && window.ko) {
+    window.ko.applyBindings(dashboardViewModel, dashboardContainer);
+    console.log('✅ Knockout bindings applied successfully');
+  } else {
+    console.error('❌ Failed to apply Knockout bindings');
+  }
+});
+</script>
+
+</body>
+</html>

@@ -2,6 +2,7 @@ package com.oracle.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,7 @@ import com.oracle.model.TransactionType;
 import com.oracle.proxy.UserProxy;
 import com.oracle.service.TransactionService;
 
-
+@CrossOrigin(origins = "http://localhost:8000")
 @RestController
 @RequestMapping("/transactions")
 public class TransactionAPI {
@@ -38,6 +39,12 @@ public class TransactionAPI {
 	public Transaction searchById(@PathVariable("id") int id) {
 		return transaction_service.searchTransactionById(id);
 	}
+
+    // ✅ Get all transactions for a user by userId
+    @GetMapping("/user/{userId}")
+    public List<Transaction> getTransactionsByUserId(@PathVariable Long userId) {
+        return transaction_service.findByUserId(userId);
+    }
 	
 	@PutMapping("/{id}")
 	public Transaction updateProduct(@RequestBody Transaction p, @PathVariable("id") int id) {

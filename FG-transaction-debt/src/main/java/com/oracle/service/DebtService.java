@@ -14,5 +14,6 @@ public interface DebtService {
 	List<Debt> allDebtService();
 	List<Debt> searchByPaymentSchedule(PaymentSchedule paymentschedule);
 	List<Debt> searchByDebtStatus(DebtStatus status);
+	
 
 }
