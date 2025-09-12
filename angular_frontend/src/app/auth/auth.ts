@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class Auth {
-  private apiUrl = 'http://localhost:8060/users/auth'; // 👉 your backend base URL
+  private apiUrl = 'http://localhost:8060/users'; // 👉 your backend base URL
 
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { username, password });
+    return this.http.post(`${this.apiUrl}/auth/login`, { username, password });
   }
   signup(signupData: { username: string; email: string; password: string }): Observable<any> {
   const payload = {
@@ -24,5 +24,10 @@ export class Auth {
 
   return this.http.post(`http://localhost:8060/users`, payload);
 }
-
+getAllUsers(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}`);
+}
+deleteUser(userId: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/${userId}`);
+}
 }
